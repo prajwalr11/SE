@@ -77,7 +77,7 @@ public class SalesPage extends javax.swing.JPanel {
 
         jLabel2.setText("Customer Code:");
 
-        jLabel3.setText("Product Code:");
+        jLabel3.setText("invoice:");
 
         jLabel4.setText("Date:");
 
@@ -325,8 +325,8 @@ public class SalesPage extends javax.swing.JPanel {
                     productDTO.setCustCode(custCodeText.getText());
                     productDTO.setDate(jDateChooser1.getDate().toString());
                     productDTO.setProdCode(prodCodeText.getText());
-                    Double sellPrice = Double.parseDouble(priceText.getText());
-                    Double totalRevenue = sellPrice * Integer.parseInt(quantityText.getText());
+                    Double assetnumber = Double.parseDouble(priceText.getText());
+                    Double totalRevenue = assetnumber * Integer.parseInt(quantityText.getText());
                     productDTO.setTotalRevenue(totalRevenue);
                     productDTO.setQuantity(Integer.parseInt(quantityText.getText()));
                     new ProductDAO().sellProductDAO(productDTO, username);
@@ -374,8 +374,8 @@ public class SalesPage extends javax.swing.JPanel {
                         + resultSet.getString("productname")
                         + " | Available quantity: "
                         + resultSet.getString("quantity"));
-                Double sellPrice = new ProductDAO().getProdSell(prodCodeText.getText());
-                priceText.setText(sellPrice.toString());
+                Double assetnumber = new ProductDAO().getProdSell(prodCodeText.getText());
+                priceText.setText(assetnumber.toString());
             } else
                 prodNameLabel.setText("||   Product doesn't exist in Inventory.  ||");
             prodNameLabel.setVisible(true);

@@ -95,7 +95,7 @@ public class ProductPage extends javax.swing.JPanel {
             }
         });
 
-        jLabel2.setText("Product Code:");
+        jLabel2.setText("Invoice:");
 
         jLabel3.setText("Product Name:");
 
@@ -105,7 +105,7 @@ public class ProductPage extends javax.swing.JPanel {
 
         jLabel6.setText("Cost Price:");
 
-        jLabel7.setText("Selling Price:");
+        jLabel7.setText("Asset Number:");
 
         jLabel8.setText("Brand:");
 
@@ -330,7 +330,7 @@ public class ProductPage extends javax.swing.JPanel {
                 productDTO.setDate(jDateChooser1.getDateFormatString());
                 productDTO.setQuantity(Integer.parseInt(quantityText.getText()));
                 productDTO.setCostPrice(Double.parseDouble(costText.getText()));
-                productDTO.setSellPrice(Double.parseDouble(sellText.getText()));
+                productDTO.setassetnumber(Double.parseDouble(sellText.getText()));
                 productDTO.setBrand(brandText.getText());
                 productDTO.setUserID(userID);
 
@@ -351,7 +351,7 @@ public class ProductPage extends javax.swing.JPanel {
             productDTO.setDate(jDateChooser1.getDateFormatString());
             productDTO.setQuantity(Integer.parseInt(quantityText.getText()));
             productDTO.setCostPrice(Double.parseDouble(costText.getText()));
-            productDTO.setSellPrice(Double.parseDouble(sellText.getText()));
+            productDTO.setassetnumber(Double.parseDouble(sellText.getText()));
             productDTO.setBrand(brandText.getText());
             productDTO.setUserID(userID);
 

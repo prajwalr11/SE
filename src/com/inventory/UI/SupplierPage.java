@@ -69,7 +69,7 @@ public class SupplierPage extends javax.swing.JPanel {
 
         jLabel4.setText("Location:");
 
-        jLabel5.setText("Contact:");
+        jLabel5.setText("P.O.Number:");
 
         jLabel6.setText("Debit Amount:");
 

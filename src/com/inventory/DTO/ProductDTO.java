@@ -15,7 +15,7 @@ package com.inventory.DTO;
 public class ProductDTO {
 
     private int prodID, quantity, userID;
-    private double costPrice, sellPrice;
+    private double costPrice, assetnumber;
     private Double totalCost, totalRevenue;
     private String prodCode, prodName, date, suppCode, custCode, custName, brand;
 
@@ -51,12 +51,12 @@ public class ProductDTO {
         this.costPrice = costPrice;
     }
 
-    public double getSellPrice() {
-        return sellPrice;
+    public double getassetnumber() {
+        return assetnumber;
     }
 
-    public void setSellPrice(double sellPrice) {
-        this.sellPrice = sellPrice;
+    public void setassetnumber(double assetnumber) {
+        this.assetnumber = assetnumber;
     }
 
     public Double getTotalCost() {

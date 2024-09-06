@@ -91,7 +91,7 @@ public class PurchasePage extends javax.swing.JPanel {
             }
         });
 
-        jLabel3.setText("Product Code:");
+        jLabel3.setText("invoice:");
 
         jLabel4.setText("Product Name:");
 
@@ -101,7 +101,7 @@ public class PurchasePage extends javax.swing.JPanel {
 
         jLabel7.setText("Cost Price:");
 
-        jLabel8.setText("Selling Price:");
+        jLabel8.setText("Asset Number:");
 
         jLabel9.setText("Brand:");
 
@@ -327,7 +327,7 @@ public class PurchasePage extends javax.swing.JPanel {
                     productDTO.setDate(jDateChooser1.getDate().toString());
                     productDTO.setQuantity(Integer.parseInt(quantityText.getText()));
                     //productDTO.setCostPrice(Double.parseDouble(costText.getText()));
-                    //productDTO.setSellPrice(Double.parseDouble(sellText.getText()));
+                    //productDTO.setassetnumber(Double.parseDouble(sellText.getText()));
                     //productDTO.setBrand(brandText.getText());
                     Double costPrice = Double.parseDouble(costText.getText());
                     Double totalCost = costPrice * Integer.parseInt(quantityText.getText());
@@ -394,7 +394,7 @@ public class PurchasePage extends javax.swing.JPanel {
             if (resultSet.next()) {
                 nameText.setText(resultSet.getString("productname"));
                 costText.setText(String.valueOf(resultSet.getDouble("costprice")));
-                sellText.setText(String.valueOf(resultSet.getDouble("sellprice")));
+                sellText.setText(String.valueOf(resultSet.getDouble("assetnumber")));
                 brandText.setText(resultSet.getString("brand"));
             } else {
                 nameText.setText("");

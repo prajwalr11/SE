@@ -134,8 +134,8 @@ public class CustomerDAO {
     public ResultSet getProdName(String prodCode) {
         try {
             String query = "SELECT productname,currentstock.quantity FROM products " +
-                    "INNER JOIN currentstock ON products.productcode=currentstock.productcode " +
-                    "WHERE currentstock.productcode='" +prodCode+ "'";
+                    "INNER JOIN currentstock ON products.invoice=currentstock.invoice " +
+                    "WHERE currentstock.invoice='" +prodCode+ "'";
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
             e.printStackTrace();

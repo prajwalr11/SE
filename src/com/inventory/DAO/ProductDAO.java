@@ -82,7 +82,7 @@ public class ProductDAO {
     public Double getProdCost(String prodCode) {
         Double costPrice = null;
         try {
-            String query = "SELECT costprice FROM products WHERE productcode='" +prodCode+ "'";
+            String query = "SELECT costprice FROM products WHERE invoice='" +prodCode+ "'";
             resultSet = statement.executeQuery(query);
             if (resultSet.next())
                 costPrice = resultSet.getDouble("costprice");
@@ -93,16 +93,16 @@ public class ProductDAO {
     }
 
     public Double getProdSell(String prodCode) {
-        Double sellPrice = null;
+        Double assetnumber = null;
         try {
-            String query = "SELECT sellprice FROM products WHERE productcode='" +prodCode+ "'";
+            String query = "SELECT assetnumber FROM products WHERE invoice='" +prodCode+ "'";
             resultSet = statement.executeQuery(query);
             if (resultSet.next())
-                sellPrice = resultSet.getDouble("sellprice");
+                assetnumber = resultSet.getDouble("assetnumber");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return sellPrice;
+        return assetnumber;
     }
 
     String suppCode;
@@ -122,10 +122,10 @@ public class ProductDAO {
     String prodCode;
     public String getProdCode(String prodName) {
         try {
-            String query = "SELECT productcode FROM products WHERE productname='" +prodName+ "'";
+            String query = "SELECT invoice FROM products WHERE productname='" +prodName+ "'";
             resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
-                suppCode = resultSet.getString("productcode");
+                suppCode = resultSet.getString("invoice");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -151,7 +151,7 @@ public class ProductDAO {
     boolean flag = false;
     public boolean checkStock(String prodCode) {
         try {
-            String query = "SELECT * FROM currentstock WHERE productcode='" +prodCode+ "'";
+            String query = "SELECT * FROM currentstock WHERE invoice='" +prodCode+ "'";
             resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 flag = true;
@@ -169,8 +169,8 @@ public class ProductDAO {
                     + productDTO.getProdName()
                     + "' AND costprice='"
                     + productDTO.getCostPrice()
-                    + "' AND sellprice='"
-                    + productDTO.getSellPrice()
+                    + "' AND assetnumber='"
+                    + productDTO.getassetnumber()
                     + "' AND brand='"
                     + productDTO.getBrand()
                     + "'";
@@ -190,7 +190,7 @@ public class ProductDAO {
             prepStatement.setString(1, productDTO.getProdCode());
             prepStatement.setString(2, productDTO.getProdName());
             prepStatement.setDouble(3, productDTO.getCostPrice());
-            prepStatement.setDouble(4, productDTO.getSellPrice());
+            prepStatement.setDouble(4, productDTO.getassetnumber());
             prepStatement.setString(5, productDTO.getBrand());
 
             String query2 = "INSERT INTO currentstock VALUES(?,?)";
@@ -226,7 +226,7 @@ public class ProductDAO {
         String prodCode = productDTO.getProdCode();
         if(checkStock(prodCode)) {
             try {
-                String query = "UPDATE currentstock SET quantity=quantity+? WHERE productcode=?";
+                String query = "UPDATE currentstock SET quantity=quantity+? WHERE invoice=?";
                 prepStatement = conn.prepareStatement(query);
                 prepStatement.setInt(1, productDTO.getQuantity());
                 prepStatement.setString(2, prodCode);
@@ -254,15 +254,15 @@ public class ProductDAO {
     // Method to update existing product details
     public void editProdDAO(ProductDTO productDTO) {
         try {
-            String query = "UPDATE products SET productname=?,costprice=?,sellprice=?,brand=? WHERE productcode=?";
+            String query = "UPDATE products SET productname=?,costprice=?,assetnumber=?,brand=? WHERE invoice=?";
             prepStatement = (PreparedStatement) conn.prepareStatement(query);
             prepStatement.setString(1, productDTO.getProdName());
             prepStatement.setDouble(2, productDTO.getCostPrice());
-            prepStatement.setDouble(3, productDTO.getSellPrice());
+            prepStatement.setDouble(3, productDTO.getassetnumber());
             prepStatement.setString(4, productDTO.getBrand());
             prepStatement.setString(5, productDTO.getProdCode());
 
-            String query2 = "UPDATE currentstock SET quantity=? WHERE productcode=?";
+            String query2 = "UPDATE currentstock SET quantity=? WHERE invoice=?";
             prepStatement2 = conn.prepareStatement(query2);
             prepStatement2.setInt(1, productDTO.getQuantity());
             prepStatement2.setString(2, productDTO.getProdCode());
@@ -278,10 +278,10 @@ public class ProductDAO {
     // Methods to handle updating of stocks in Inventory upon any transaction made
     public void editPurchaseStock(String code, int quantity) {
         try {
-            String query = "SELECT * FROM currentstock WHERE productcode='" +code+ "'";
+            String query = "SELECT * FROM currentstock WHERE invoice='" +code+ "'";
             resultSet = statement.executeQuery(query);
             if(resultSet.next()) {
-                String query2 = "UPDATE currentstock SET quantity=quantity-? WHERE productcode=?";
+                String query2 = "UPDATE currentstock SET quantity=quantity-? WHERE invoice=?";
                 prepStatement = conn.prepareStatement(query2);
                 prepStatement.setInt(1, quantity);
                 prepStatement.setString(2, code);
@@ -293,10 +293,10 @@ public class ProductDAO {
     }
     public void editSoldStock(String code, int quantity) {
         try {
-            String query = "SELECT * FROM currentstock WHERE productcode='" +code+ "'";
+            String query = "SELECT * FROM currentstock WHERE invoice='" +code+ "'";
             resultSet = statement.executeQuery(query);
             if(resultSet.next()) {
-                String query2 = "UPDATE currentstock SET quantity=quantity+? WHERE productcode=?";
+                String query2 = "UPDATE currentstock SET quantity=quantity+? WHERE invoice=?";
                 prepStatement = conn.prepareStatement(query2);
                 prepStatement.setInt(1, quantity);
                 prepStatement.setString(2, code);
@@ -308,8 +308,8 @@ public class ProductDAO {
     }
     public void deleteStock() {
         try {
-            String query = "DELETE FROM currentstock WHERE productcode NOT IN(SELECT productcode FROM purchaseinfo)";
-            String query2 = "DELETE FROM salesinfo WHERE productcode NOT IN(SELECT productcode FROM products)";
+            String query = "DELETE FROM currentstock WHERE invoice NOT IN(SELECT invoice FROM purchaseinfo)";
+            String query2 = "DELETE FROM salesinfo WHERE invoice NOT IN(SELECT invoice FROM products)";
             statement.executeUpdate(query);
             statement.executeUpdate(query2);
         } catch (SQLException throwables) {
@@ -320,11 +320,11 @@ public class ProductDAO {
     // Method to permanently delete a product from inventory
     public void deleteProductDAO(String code) {
         try {
-            String query = "DELETE FROM products WHERE productcode=?";
+            String query = "DELETE FROM products WHERE invoice=?";
             prepStatement = conn.prepareStatement(query);
             prepStatement.setString(1, code);
 
-            String query2 = "DELETE FROM currentstock WHERE productcode=?";
+            String query2 = "DELETE FROM currentstock WHERE invoice=?";
             prepStatement2 = conn.prepareStatement(query2);
             prepStatement2.setString(1, code);
 
@@ -371,10 +371,10 @@ public class ProductDAO {
         int quantity = 0;
         String prodCode = null;
         try {
-            String query = "SELECT * FROM currentstock WHERE productcode='" +productDTO.getProdCode()+ "'";
+            String query = "SELECT * FROM currentstock WHERE invoice='" +productDTO.getProdCode()+ "'";
             resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
-                prodCode = resultSet.getString("productcode");
+                prodCode = resultSet.getString("invoice");
                 quantity = resultSet.getInt("quantity");
             }
             if (productDTO.getQuantity()>quantity)
@@ -384,10 +384,10 @@ public class ProductDAO {
             else {
                 String stockQuery = "UPDATE currentstock SET quantity=quantity-'"
                         +productDTO.getQuantity()
-                        +"' WHERE productcode='"
+                        +"' WHERE invoice='"
                         +productDTO.getProdCode()
                         +"'";
-                String salesQuery = "INSERT INTO salesinfo(date,productcode,customercode,quantity,revenue,soldby)" +
+                String salesQuery = "INSERT INTO salesinfo(date,invoice,customercode,quantity,revenue,soldby)" +
                         "VALUES('"+productDTO.getDate()+"','"+productDTO.getProdCode()+"','"+productDTO.getCustCode()+
                         "','"+productDTO.getQuantity()+"','"+productDTO.getTotalRevenue()+"','"+username+"')";
                 statement.executeUpdate(stockQuery);
@@ -402,7 +402,7 @@ public class ProductDAO {
     // Products data set retrieval for display
     public ResultSet getQueryResult() {
         try {
-            String query = "SELECT productcode,productname,costprice,sellprice,brand FROM products ORDER BY pid";
+            String query = "SELECT invoice,productname,costprice,assetnumber,brand FROM products ORDER BY pid";
             resultSet = statement.executeQuery(query);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -413,9 +413,9 @@ public class ProductDAO {
     // Purchase table data set retrieval
     public ResultSet getPurchaseInfo() {
         try {
-            String query = "SELECT PurchaseID,purchaseinfo.ProductCode,ProductName,Quantity,Totalcost " +
+            String query = "SELECT PurchaseID,purchaseinfo.Invoice,ProductName,Quantity,Totalcost " +
                     "FROM purchaseinfo INNER JOIN products " +
-                    "ON products.productcode=purchaseinfo.productcode ORDER BY purchaseid;";
+                    "ON products.invoice=purchaseinfo.invoice ORDER BY purchaseid;";
             resultSet = statement.executeQuery(query);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -427,10 +427,10 @@ public class ProductDAO {
     public ResultSet getCurrentStockInfo() {
         try {
             String query = """
-                    SELECT currentstock.ProductCode,products.ProductName,
-                    currentstock.Quantity,products.CostPrice,products.SellPrice
+                    SELECT currentstock.Invoice,products.ProductName,
+                    currentstock.Quantity,products.CostPrice,products.assetnumber
                     FROM currentstock INNER JOIN products
-                    ON currentstock.productcode=products.productcode;
+                    ON currentstock.invoice=products.invoice;
                     """;
             resultSet = statement.executeQuery(query);
         } catch (SQLException throwables) {
@@ -443,10 +443,10 @@ public class ProductDAO {
     public ResultSet getSalesInfo() {
         try {
             String query = """
-                    SELECT salesid,salesinfo.productcode,productname,
+                    SELECT salesid,salesinfo.invoice,productname,
                     salesinfo.quantity,revenue,users.name AS Sold_by
                     FROM salesinfo INNER JOIN products
-                    ON salesinfo.productcode=products.productcode
+                    ON salesinfo.invoice=products.invoice
                     INNER JOIN users
                     ON salesinfo.soldby=users.username;
                     """;
@@ -460,8 +460,8 @@ public class ProductDAO {
     // Search method for products
     public ResultSet getProductSearch(String text) {
         try {
-            String query = "SELECT productcode,productname,costprice,sellprice,brand FROM products " +
-                    "WHERE productcode LIKE '%"+text+"%' OR productname LIKE '%"+text+"%' OR brand LIKE '%"+text+"%'";
+            String query = "SELECT invoice,productname,costprice,assetnumber,brand FROM products " +
+                    "WHERE invoice LIKE '%"+text+"%' OR productname LIKE '%"+text+"%' OR brand LIKE '%"+text+"%'";
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -471,8 +471,8 @@ public class ProductDAO {
 
     public ResultSet getProdFromCode(String text) {
         try {
-            String query = "SELECT productcode,productname,costprice,sellprice,brand FROM products " +
-                    "WHERE productcode='" +text+ "' LIMIT 1";
+            String query = "SELECT invoice,productname,costprice,assetnumber,brand FROM products " +
+                    "WHERE invoice='" +text+ "' LIMIT 1";
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -483,15 +483,15 @@ public class ProductDAO {
     // Search method for sales
     public ResultSet getSalesSearch(String text) {
         try {
-            String query = "SELECT salesid,salesinfo.productcode,productname,\n" +
+            String query = "SELECT salesid,salesinfo.invoice,productname,\n" +
                     "                    salesinfo.quantity,revenue,users.name AS Sold_by\n" +
                     "                    FROM salesinfo INNER JOIN products\n" +
-                    "                    ON salesinfo.productcode=products.productcode\n" +
+                    "                    ON salesinfo.invoice=products.invoice\n" +
                     "                    INNER JOIN users\n" +
                     "                    ON salesinfo.soldby=users.username\n" +
                     "                    INNER JOIN customers\n" +
                     "                    ON customers.customercode=salesinfo.customercode\n" +
-                    "WHERE salesinfo.productcode LIKE '%"+text+"%' OR productname LIKE '%"+text+"%' " +
+                    "WHERE salesinfo.invoice LIKE '%"+text+"%' OR productname LIKE '%"+text+"%' " +
                     "OR users.name LIKE '%"+text+"%' OR customers.fullname LIKE '%"+text+"%' ORDER BY salesid;";
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
@@ -503,10 +503,10 @@ public class ProductDAO {
     // Search method for purchase logs
     public ResultSet getPurchaseSearch(String text) {
         try {
-            String query = "SELECT PurchaseID,purchaseinfo.productcode,products.productname,quantity,totalcost " +
-                    "FROM purchaseinfo INNER JOIN products ON purchaseinfo.productcode=products.productcode " +
+            String query = "SELECT PurchaseID,purchaseinfo.invoice,products.productname,quantity,totalcost " +
+                    "FROM purchaseinfo INNER JOIN products ON purchaseinfo.invoice=products.invoice " +
                     "INNER JOIN suppliers ON purchaseinfo.suppliercode=suppliers.suppliercode" +
-                    "WHERE PurchaseID LIKE '%"+text+"%' OR productcode LIKE '%"+text+"%' OR productname LIKE '%"+text+"%' " +
+                    "WHERE PurchaseID LIKE '%"+text+"%' OR invoice LIKE '%"+text+"%' OR productname LIKE '%"+text+"%' " +
                     "OR suppliers.fullname LIKE '%"+text+"%' OR purchaseinfo.suppliercode LIKE '%"+text+"%' " +
                     "OR date LIKE '%"+text+"%' ORDER BY purchaseid";
             resultSet = statement.executeQuery(query);
@@ -518,7 +518,7 @@ public class ProductDAO {
 
     public ResultSet getProdName(String code) {
         try {
-            String query = "SELECT productname FROM products WHERE productcode='" +code+ "'";
+            String query = "SELECT productname FROM products WHERE invoice='" +code+ "'";
             resultSet = statement.executeQuery(query);
         } catch (SQLException throwables) {
             throwables.printStackTrace();

@@ -43,7 +43,7 @@ public class SupplierDAO {
                     +supplierDTO.getFullName()
                     + "' AND location='"
                     +supplierDTO.getLocation()
-                    + "' AND mobile='"
+                    + "' AND ponumber='"
                     +supplierDTO.getPhone()
                     + "'";
             resultSet = statement.executeQuery(query);
@@ -73,7 +73,7 @@ public class SupplierDAO {
     // Method to edit existing suppleir details
     public void editSupplierDAO(SupplierDTO supplierDTO) {
         try {
-            String query = "UPDATE suppliers SET fullname=?,location=?,mobile=? WHERE suppliercode=?";
+            String query = "UPDATE suppliers SET fullname=?,location=? ,ponumber=? WHERE suppliercode=?";
             prepStatement = conn.prepareStatement(query);
             prepStatement.setString(1, supplierDTO.getFullName());
             prepStatement.setString(2, supplierDTO.getLocation());
@@ -100,7 +100,7 @@ public class SupplierDAO {
     // Supplier data set retrieval method
     public ResultSet getQueryResult() {
         try {
-            String query = "SELECT suppliercode, fullname, location, mobile FROM suppliers";
+            String query = "SELECT suppliercode, fullname, location, ponumber FROM suppliers";
             resultSet = statement.executeQuery(query);
         } catch (Exception e) {
             e.printStackTrace();
@@ -111,9 +111,9 @@ public class SupplierDAO {
     // Search method
     public ResultSet getSearchResult(String searchText) {
         try {
-            String query = "SELECT suppliercode, fullname, location, mobile FROM suppliers " +
+            String query = "SELECT suppliercode, fullname, location, ponumber FROM suppliers " +
                     "WHERE suppliercode LIKE '%"+searchText+"%' OR location LIKE '%"+searchText+"%' " +
-                    "OR fullname LIKE '%"+searchText+"%' OR mobile LIKE '%"+searchText+"%'";
+                    "OR fullname LIKE '%"+searchText+"%' OR ponumber LIKE '%"+searchText+"%'";
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
             e.printStackTrace();

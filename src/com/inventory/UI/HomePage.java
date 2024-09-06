@@ -1,21 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.inventory.UI;
 
 import com.inventory.DAO.UserDAO;
 import com.inventory.DTO.UserDTO;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
- *
- * @author asjad
+ * Welcome page for the application
  */
-// Welcome page for the application
 public class HomePage extends javax.swing.JPanel {
 
     /**
@@ -39,14 +33,28 @@ public class HomePage extends javax.swing.JPanel {
 
         welcomeLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        JPanel jPanel1 = new JPanel(); // Create a new panel
 
         welcomeLabel.setFont(new java.awt.Font("Impact", 0, 36)); // NOI18N
         welcomeLabel.setText("Welcome");
 
         jLabel1.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("<html>Manage  your  inventory,  transactions  and  personnel,  all  in  one place.<br><br>Click  on  the  Menu  button  to  start.<html>");
+        jLabel1.setText("<html>Manage your inventory, transactions and personnel, all in one place.<br><br>Click on the Menu button to start.<html>");
+        
+        // Create an image icon
+        ImageIcon imageIcon = new ImageIcon("download.jpeg"); // Update this path with the location of your image
+        
+        // Create a new JLabel for the image
+        JLabel imageLabel = new JLabel();
+        imageLabel.setIcon(imageIcon);
+        imageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+        // Add both labels to the panel
+        jPanel1.add(jLabel1);
+        jPanel1.add(imageLabel);
 
+        // Set layout and add jPanel1 to this panel (HomePage)
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -58,7 +66,7 @@ public class HomePage extends javax.swing.JPanel {
                         .addComponent(welcomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(54, 54, 54)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))) // Add jPanel1
                 .addContainerGap(84, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -67,7 +75,7 @@ public class HomePage extends javax.swing.JPanel {
                 .addGap(12, 12, 12)
                 .addComponent(welcomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE) // Add jPanel1
                 .addContainerGap(174, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents

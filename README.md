@@ -23,7 +23,7 @@ This application can be used by any small to mid-sized stores to easily maintain
   [Admins have the ability to manage all other personnel.]
 - Any transaction made automatically handles the stock availability in the inventory.
 - Each section includes a search feature to make it easier for users to view the data they want to see.
-- Users only need to enter the product code while making a sale and all the relevant details will be retrieved from the database automatically.
+- Users only need to enter the invoice while making a sale and all the relevant details will be retrieved from the database automatically.
 - Maintains a time log of all the users using the application.
 
 ## How to download and run the software
@@ -100,13 +100,13 @@ Allows user to add new customers or update/delete existing customers in the data
 ### Sales
 
 This section is where users can sell a product and manage all the sales transactions. 
-The user only needs to enter the customer and product code and the software will handle the rest, showing all the necessary details like available stock and selling price of the product. 
+The user only needs to enter the customer and invoice and the software will handle the rest, showing all the necessary details like available stock and selling price of the product. 
 
 ![sales](screenshots/sales.png)
 
 ### Purchase
 
-This section is where users can view purchase logs and enter new purchase transactions. Similar to the sales section, this section only requires the user to enter the product code and the details that are already available in the database will immediately be displayed in the respective spaces.
+This section is where users can view purchase logs and enter new purchase transactions. Similar to the sales section, this section only requires the user to enter the invoice and the details that are already available in the database will immediately be displayed in the respective spaces.
 
 ![purchase](screenshots/purchase.png)
 

@@ -25,9 +25,9 @@ DROP TABLE IF EXISTS `currentstock`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `currentstock` (
-  `productcode` varchar(45) NOT NULL,
+  `invoice` varchar(45) NOT NULL,
   `quantity` int NOT NULL,
-  PRIMARY KEY (`productcode`)
+  PRIMARY KEY (`invoice`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -77,13 +77,13 @@ DROP TABLE IF EXISTS `products`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `products` (
   `pid` int NOT NULL AUTO_INCREMENT,
-  `productcode` varchar(45) NOT NULL,
+  `invoice` varchar(45) NOT NULL,
   `productname` varchar(45) NOT NULL,
   `costprice` double NOT NULL,
-  `sellprice` double NOT NULL,
+  `assetnumber` double NOT NULL,
   `brand` varchar(45) NOT NULL,
   PRIMARY KEY (`pid`),
-  UNIQUE KEY `productcode_UNIQUE` (`productcode`)
+  UNIQUE KEY `invoice_UNIQUE` (`invoice`)
 ) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -93,7 +93,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (111,'prod1','Laptop',85000,90000,'Dell'),(112,'prod2','Laptop',70000,72000,'HP'),(113,'prod3','Mobile',60000,64000,'Apple'),(114,'prod4','Mobile',50000,51000,'Samsung'),(121,'prod5','Charger',2000,2100,'Apple'),(122,'prod6','Mouse',1700,1900,'Dell'),(128,'prod7','Power Adapter',3000,3500,'Dell'),(129,'prod8','Smart Watch',15000,17000,'Apple');
+INSERT INTO `products` VALUES (111,'prod1','Laptop',85000,90000,'Dell'),(112,'prod2','Laptop',70000,72000,'HP'),(113,'prod3','mobile',60000,64000,'Apple'),(114,'prod4','mobile',50000,51000,'Samsung'),(121,'prod5','Charger',2000,2100,'Apple'),(122,'prod6','Mouse',1700,1900,'Dell'),(128,'prod7','Power Adapter',3000,3500,'Dell'),(129,'prod8','Smart Watch',15000,17000,'Apple');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -107,7 +107,7 @@ DROP TABLE IF EXISTS `purchaseinfo`;
 CREATE TABLE `purchaseinfo` (
   `purchaseID` int NOT NULL AUTO_INCREMENT,
   `suppliercode` varchar(45) NOT NULL,
-  `productcode` varchar(45) NOT NULL,
+  `invoice` varchar(45) NOT NULL,
   `date` varchar(45) NOT NULL,
   `quantity` int NOT NULL,
   `totalcost` double NOT NULL,
@@ -135,7 +135,7 @@ DROP TABLE IF EXISTS `salesinfo`;
 CREATE TABLE `salesinfo` (
   `salesid` int NOT NULL AUTO_INCREMENT,
   `date` varchar(45) NOT NULL,
-  `productcode` varchar(45) NOT NULL,
+  `invoice` varchar(45) NOT NULL,
   `customercode` varchar(45) NOT NULL,
   `quantity` int NOT NULL,
   `revenue` double NOT NULL,
